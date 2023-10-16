@@ -1,0 +1,25 @@
+FROM ubuntu:bionic
+
+RUN apt-get update \
+  && apt-get install -y \
+  bind9 \
+  bind9utils \
+  bind9-doc \
+  dnsutils
+
+# !!!! TODO - ADD rsyslog and see if you can get past these permission issues
+
+# Enable IPv4
+RUN sed -i 's/OPTIONS=.*/OPTIONS="-4 -u bind"/' /etc/default/bind9
+
+# Copy configuration files
+COPY named.conf.options /etc/bind/
+COPY named.conf.local /etc/bind/
+COPY db.silverlake.dev /etc/bind/zones/
+RUN chmod 644 /etc/bind/rndc.key
+RUN chmod 644 /etc/bind/named.conf.options
+RUN chmod 644 /etc/bind/named.conf.local
+RUN chmod -R 744 /etc/bind/zones
+
+# Run named
+ENTRYPOINT ["/bin/bash", "-c", "named -g"]

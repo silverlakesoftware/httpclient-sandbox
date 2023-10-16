@@ -1,0 +1,15 @@
+- Http Client Issue Showcase
+
+- Reuse vs non-Reuse of client
+- Reuse of HttpHandler in order to order to set a request specific timeout
+- Sync over Async problems (i.e. the power of async)
+- Using a blocking method instead of Sync over Async
+- DNS changes (how to control)
+- The problems with an HttpHandler timeout
+- Error handling (i.e. timeout vs cancellation, maybe others)
+- Behavior of cancellation on the server
+- Redirect behavior
+
+Maybe:
+- How to write client with specific control of parts of the timeout
+- HttpClientFactory pros and cons

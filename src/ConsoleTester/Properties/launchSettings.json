@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "ConsoleTester": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "DockerfileRunArguments": "-v \"/var/run/docker.sock.raw:/var/run/docker.sock\" --net hcs-demo-net --ip=172.20.1.50 --dns=172.20.1.2"
+    }
+  }
+}

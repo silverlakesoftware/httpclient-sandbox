@@ -1,0 +1,6 @@
+.vs/
+build/bin/
+build/obj/
+bin/
+obj/
+*.user

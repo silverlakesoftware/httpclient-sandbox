@@ -1,0 +1,4 @@
+zone "silverlake.dev" {
+    type master;
+    file "/etc/bind/zones/db.silverlake.dev";
+};

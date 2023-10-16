@@ -1,0 +1,17 @@
+docker network create --subnet=172.20.0.0/16 silverlake-dev-net
+docker network ls
+docker network inspect silverlake-dev-net 
+docker build -t bind9 .
+
+docker run -d --rm --name=host1 --net=silverlake-dev-net --ip=172.20.0.3 --dns=172.20.0.2 ubuntu:bionic /bin/bash -c "while :; do sleep 10; done"
+
+docker run -d --rm --name=host2 --net=silverlake-dev-net --ip=172.20.0.4 --dns=172.20.0.2 busybox sh -c "while :; do sleep 10; done"
+
+docker run -d --rm --name=dns-server --net=silverlake-dev-net --ip=172.20.0.2 `
+  --mount type=bind,source="E:\Sandbox\HttpClientSandbox\files\dns-example1\zones\",target="/etc/bind/zones" bind9
+
+docker exec -d dns-server /etc/init.d/bind9 start
+
+docker exec -d dns-server /etc/init.d/bind9 reload
+
+docker exec -it host2 sh

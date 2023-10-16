@@ -1,0 +1,10 @@
+FROM ubuntu:bionic
+
+RUN apt-get update \
+  && apt-get install -y \
+  dnsutils \
+  iputils-ping \
+  curl
+
+# Don't close
+ENTRYPOINT ["sleep", "infinity"]
