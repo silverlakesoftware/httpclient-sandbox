@@ -31,13 +31,13 @@ namespace ConsoleTester
             await StartClientApp().ConfigureAwait(false);
 
 
-            var rawContents = await bind9.ReadFileAsync("/etc/bind/zones/db.silverlake.dev");
+            var rawContents = await bind9.ReadFileAsync("/etc/bind/zones/db.sandbox.example");
             var contents = Encoding.ASCII.GetString(rawContents);
             contents = contents.Replace(
-                "host.silverlake.dev.         IN      A      172.20.1.3",
-                "host.silverlake.dev.         IN      A      172.20.1.4");
+                "host.sandbox.example.         IN      A      172.20.1.3",
+                "host.sandbox.example.         IN      A      172.20.1.4");
             rawContents = Encoding.ASCII.GetBytes(contents);
-            await bind9.CopyAsync(rawContents, "/etc/bind/zones/db.silverlake.dev");
+            await bind9.CopyAsync(rawContents, "/etc/bind/zones/db.sandbox.example");
 
             await bind9.ExecAsync(new[] { "rndc", "reload" });
 

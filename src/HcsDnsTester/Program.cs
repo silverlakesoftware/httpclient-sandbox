@@ -9,7 +9,7 @@
                 PooledConnectionLifetime = TimeSpan.FromMinutes(1)
             };
             var httpClient = new HttpClient(handler);
-            httpClient.BaseAddress = new Uri("http://host.silverlake.dev");
+            httpClient.BaseAddress = new Uri("http://host.sandbox.example");
 
             using var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
             while (true)
