@@ -1,6 +1,6 @@
 ﻿using DotNet.Testcontainers.Builders;
 
-namespace ConsoleTester;
+namespace HttpClientSandboxContainers;
 
 public static class ContainerBuilderExtensions
 {

@@ -5,7 +5,8 @@ WORKDIR /app
 RUN apt-get update \
   && apt-get install -y \
   dnsutils \
-  iputils-ping
+  iputils-ping \
+  iproute2
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
@@ -21,4 +22,5 @@ RUN dotnet publish "HcsDnsTester.csproj" -c Debug -o /app/publish /p:UseAppHost=
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "HcsDnsTester.dll"]
+#ENTRYPOINT ["dotnet", "HcsDnsTester.dll"]
+ENTRYPOINT ["sleep", "infinity"]

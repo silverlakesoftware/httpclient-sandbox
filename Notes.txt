@@ -13,3 +13,8 @@
 Maybe:
 - How to write client with specific control of parts of the timeout
 - HttpClientFactory pros and cons
+
+Ideas:
+- Could we run the unit tests in docker? including from VS? https://learn.microsoft.com/en-us/visualstudio/test/remote-testing?view=vs-2022
+  - Network setup might be an issue for this project
+- With flag, wait for debugger attach in docker processes
