@@ -12,7 +12,6 @@ public class CommonResourcesFixture : IAsyncLifetime
     IFutureDockerImage _apiAppImage = null!;
     IFutureDockerImage _clientAppImage = null!;
 
-    [MemberNotNull(nameof(_dnsServerImage))]
     public async Task InitializeAsync()
     {
         _network = await HcsNetworkBuilder.CreateNetwork();

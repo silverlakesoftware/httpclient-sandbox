@@ -9,12 +9,11 @@ namespace HttpClientSandboxTests
         [Fact]
         public async Task DisposeExhaustsTcpPorts()
         {
-            await using var dnsServer = await HcsContainerBuilder.StartDnsServer().ConfigureAwait(false);
+            await using var dnsServer = await HcsContainerBuilder.StartDnsServer();
 
-            await using var _1 = await HcsContainerBuilder.StartApiApp1().ConfigureAwait(false);
-            await using var clientApp = await HcsContainerBuilder.StartClientApp().ConfigureAwait(false);
+            await using var _1 = await HcsContainerBuilder.StartApiApp1();
+            await using var clientApp = await HcsContainerBuilder.StartClientApp();
 
-            //var result = await clientApp.ExecAsync(new[] { "dotnet", "HcsDnsTester.dll" });
             var result = await clientApp.ExecAsync(new[] { "/bin/bash", "-xc", "dotnet HcsDnsTester.dll DisposeHttpClient | tee /proc/1/fd/1" });
 
             var lines = result.Stdout.Trim().Split('\n');
@@ -24,10 +23,10 @@ namespace HttpClientSandboxTests
         [Fact]
         public async Task SingletonDoesNotExhaustTcpPorts()
         {
-            await using var dnsServer = await HcsContainerBuilder.StartDnsServer().ConfigureAwait(false);
+            await using var dnsServer = await HcsContainerBuilder.StartDnsServer();
 
-            await using var _1 = await HcsContainerBuilder.StartApiApp1().ConfigureAwait(false);
-            await using var clientApp = await HcsContainerBuilder.StartClientApp().ConfigureAwait(false);
+            await using var _1 = await HcsContainerBuilder.StartApiApp1();
+            await using var clientApp = await HcsContainerBuilder.StartClientApp();
 
             //var result = await clientApp.ExecAsync(new[] { "dotnet", "HcsDnsTester.dll" });
             var result = await clientApp.ExecAsync(new[] { "/bin/bash", "-xc", "dotnet HcsDnsTester.dll SingletonHttpClient | tee /proc/1/fd/1" });

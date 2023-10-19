@@ -51,8 +51,6 @@ public static class HcsResourceBuilder
 
     public static async Task<IFutureDockerImage> CreateDnsTesterImage()
     {
-
-
         var image = new ImageFromDockerfileBuilder()
             .WithDockerfileDirectory(CommonDirectoryPath.GetSolutionDirectory(), ".")
             .WithDockerfile("src/HcsDnsTester/Dockerfile")
