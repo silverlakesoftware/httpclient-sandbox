@@ -16,22 +16,9 @@ namespace HcsDnsTester
                 case "SingletonHttpClient":
                     await SingletonHttpClient();
                     break;
-            }
-
-            return;
-
-            var handler = new SocketsHttpHandler
-            {
-                PooledConnectionLifetime = TimeSpan.FromMinutes(1)
-            };
-            var httpClient = new HttpClient(handler) { BaseAddress = new Uri(ApiEndpointUrl) };
-
-            using var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
-            while (true)
-            {
-                var result = await httpClient.GetStringAsync("weatherforecast").ConfigureAwait(false);
-                Console.WriteLine(result);
-                await timer.WaitForNextTickAsync();
+                case "DnsTestHttpClient":
+                    await DnsTestHttpClient();
+                    break;
             }
         }
 
@@ -66,6 +53,23 @@ namespace HcsDnsTester
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        static async Task DnsTestHttpClient()
+        {
+            var handler = new SocketsHttpHandler
+            {
+                PooledConnectionLifetime = TimeSpan.FromSeconds(30)
+            };
+            var httpClient = new HttpClient(handler) { BaseAddress = new Uri(ApiEndpointUrl) };
+
+            using var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
+            while (true)
+            {
+                var result = await httpClient.GetStringAsync("weatherforecast").ConfigureAwait(false);
+                Console.WriteLine(result);
+                await timer.WaitForNextTickAsync();
             }
         }
     }

@@ -11,7 +11,10 @@ namespace ConsoleTester
     {
         static async Task Main(string[] args)
         {
-            await Task.WhenAll(HcsResourceBuilder.CreateDnsServerImage(), HcsResourceBuilder.CreateBaseImage(), HcsResourceBuilder.CreateApiAppImage(), HcsResourceBuilder.CreateDnsTesterImage()).ConfigureAwait(false);
+            await Task.WhenAll(
+                HcsResourceBuilder.CreateDnsServerImage(),
+                HcsResourceBuilder.CreateApiAppImage(), 
+                HcsResourceBuilder.CreateDnsTesterImage()).ConfigureAwait(false);
 
             await HcsNetworkBuilder.CreateNetwork().ConfigureAwait(false);
 
@@ -19,6 +22,8 @@ namespace ConsoleTester
             await HcsContainerBuilder.StartApiApp1().ConfigureAwait(false);
             await HcsContainerBuilder.StartApiApp2().ConfigureAwait(false);
             var clientApp = await HcsContainerBuilder.StartClientApp().ConfigureAwait(false);
+
+            _ = clientApp.ExecAsync(new[] { "/bin/bash", "-xc", "dotnet HcsDnsTester.dll DnsTestHttpClient | tee /proc/1/fd/1" }).ConfigureAwait(false);
 
             var rawContents = await dnsServer.ReadFileAsync("/etc/bind/zones/db.sandbox.example");
             var contents = Encoding.ASCII.GetString(rawContents);
@@ -29,8 +34,6 @@ namespace ConsoleTester
             await dnsServer.CopyAsync(rawContents, "/etc/bind/zones/db.sandbox.example");
 
             await dnsServer.ExecAsync(new[] { "rndc", "reload" });
-
-            var result = await clientApp.ExecAsync(new[] { "/bin/bash", "-xc", "ss -t state time-wait | wc -l" });
         }
     }
 }
